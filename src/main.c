@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <math.h>
 
 #define INITIAL_CAPACITY 4
 
@@ -17,6 +18,12 @@ typedef struct {
     size_t size;
     size_t capacity;
 } Vector;
+
+typedef struct {
+    int x;
+    int y;
+} point;
+
 
 void init_vector(Vector* vec) 
 {
@@ -66,9 +73,22 @@ token tokenize_pair(pair Pair)
     return T;
 }
 
+
+// formula:
+// d = sqrt( (p1.x - p2.x) - (p1.y - p2.y) )
+double difference_between_points(point* p1, point* p2)
+{
+    double diff1 = p1->x - p2->x; 
+    double diff2 = p1->y - p2->y;
+    double d = sqrt(diff1 * diff1 + diff2 * diff2); 
+    
+    return d;
+}
+
 int main(void)
 {
-    const char str[] = "The lazy fox jumps over the lazy dog";
+    const char str[] = "The quick brown fox jumps over the lazy dog";
+
     size_t str_size = sizeof(str) - 1;
 
 
@@ -86,10 +106,8 @@ int main(void)
         token T = tokenize_pair(Pair);
         append_vector(&tokens, T);
 
-        printf("%s = %d\n", Pair.pair, T.value);
     }
-
-
+    
     return 0;
 }
 
